@@ -8,14 +8,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:linear-gradient(135deg,#0a0a0f,#12001a,#000d1a);font-family:'Segoe UI',sans-serif;color:#fff;min-height:100vh}
 .app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-.header{padding:16px 20px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header{padding:14px 20px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-box{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
 .logo-text{font-size:20px;font-weight:800;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .login-btn{background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;border-radius:20px;padding:6px 16px;color:#fff;font-weight:700;font-size:13px;cursor:pointer}
 .notif{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#a855f7,#3b82f6);border-radius:30px;padding:10px 24px;font-size:13px;font-weight:700;z-index:9999;white-space:nowrap;display:none;box-shadow:0 4px 24px rgba(168,85,247,0.5)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:500;padding:24px}
-.modal{background:linear-gradient(135deg,#1a0030,#001a2e);border:1px solid rgba(168,85,247,0.3);border-radius:24px;padding:28px;width:100%;max-width:360px}
+.modal{background:linear-gradient(135deg,#1a0030,#001a2e);border:1px solid rgba(168,85,247,0.3);border-radius:24px;padding:28px;width:100%;max-width:360px;max-height:90vh;overflow-y:auto}
 .modal h2{font-size:22px;font-weight:800;margin-bottom:20px;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 input[type=text],input[type=password],input[type=tel],input[type=number],textarea{display:block;width:100%;margin-bottom:12px;background:rgba(255,255,255,0.07);border:1px solid rgba(168,85,247,0.3);border-radius:12px;color:#fff;padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box}
 input::placeholder,textarea::placeholder{color:#555}
@@ -27,54 +27,67 @@ textarea{resize:none;height:60px}
 .page.on{display:block}
 .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px;margin-bottom:16px}
 
-/* Upload Box */
-.upload-box{background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(59,130,246,0.15));border:2px dashed rgba(168,85,247,0.4);border-radius:20px;padding:28px;text-align:center;cursor:pointer;margin-bottom:20px;position:relative;overflow:hidden}
-.upload-box:active{border-color:#a855f7;background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(59,130,246,0.25))}
-#fileInput{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+/* Upload */
+.upload-box{background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(59,130,246,0.15));border:2px dashed rgba(168,85,247,0.4);border-radius:20px;padding:28px;text-align:center;cursor:pointer;margin-bottom:20px;position:relative}
+.upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 
-/* Video Player */
-.video-wrap{background:#000;border-radius:18px;margin-bottom:16px;overflow:hidden;border:1px solid rgba(168,85,247,0.3);position:relative}
-#myVideo{width:100%;max-height:260px;display:block;border-radius:18px}
-.video-info{padding:10px 14px;background:rgba(168,85,247,0.1);display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.video-name{color:#c084fc;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
-.video-size{color:#666;font-size:11px}
-.no-video{height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#555}
+/* Video */
+.video-wrap{background:#000;border-radius:18px;margin-bottom:12px;overflow:hidden;border:1px solid rgba(168,85,247,0.3)}
+#myVideo{width:100%;max-height:220px;display:block}
+.video-info{padding:8px 14px;background:rgba(168,85,247,0.1);display:flex;justify-content:space-between;align-items:center;font-size:12px}
+
+/* Trim Feature */
+.trim-section{background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:18px;padding:16px;margin-bottom:16px}
+.trim-title{font-weight:700;font-size:15px;margin-bottom:12px;color:#c084fc}
+.trim-times{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#a3a3a3}
+.trim-bar{position:relative;height:50px;background:rgba(255,255,255,0.05);border-radius:12px;margin-bottom:12px;overflow:hidden;cursor:pointer}
+.trim-bg{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(168,85,247,0.05) 0px,rgba(168,85,247,0.05) 10px,transparent 10px,transparent 20px)}
+.trim-selected{position:absolute;top:0;bottom:0;background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(59,130,246,0.3));border:2px solid #a855f7;border-radius:8px}
+.trim-handle-left,.trim-handle-right{position:absolute;top:0;bottom:0;width:18px;background:#a855f7;border-radius:6px;cursor:ew-resize;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;z-index:10;user-select:none}
+.trim-handle-left{left:0;border-radius:6px 0 0 6px}
+.trim-handle-right{right:0;border-radius:0 6px 6px 0}
+.trim-playhead{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
+.trim-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.trim-input-wrap{background:rgba(255,255,255,0.05);border-radius:10px;padding:8px 12px}
+.trim-input-label{font-size:11px;color:#a3a3a3;margin-bottom:4px}
+.trim-input-val{font-size:16px;font-weight:700;color:#c084fc}
+.trim-btns{display:flex;gap:8px}
+.trim-btn{flex:1;padding:10px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit}
+.trim-preview-btn{background:rgba(168,85,247,0.2);color:#c084fc}
+.trim-apply-btn{background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff}
+
+/* Waveform */
+.waveform{height:30px;background:rgba(168,85,247,0.1);border-radius:8px;margin-bottom:8px;overflow:hidden;position:relative}
+.wave-bar{position:absolute;bottom:0;width:3px;background:rgba(168,85,247,0.6);border-radius:2px}
 
 /* Controls */
-.controls{display:flex;gap:8px;padding:10px 14px;background:rgba(0,0,0,0.3);flex-wrap:wrap}
-.ctrl-btn{padding:8px 14px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit}
+.controls{display:flex;gap:6px;padding:8px 12px;background:rgba(0,0,0,0.3);flex-wrap:wrap}
+.ctrl-btn{padding:6px 12px;border-radius:8px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit}
 .ctrl-btn.active{background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff}
-.ctrl-btn:active{transform:scale(0.95)}
-
-/* Filter Preview */
-.filter-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.filter-item{border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;position:relative}
-.filter-item.active{border-color:#a855f7}
-.filter-item video{width:100%;height:70px;object-fit:cover}
-.filter-label{text-align:center;font-size:10px;color:#ccc;padding:4px;background:rgba(0,0,0,0.5)}
 
 /* Effects */
 .fx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.fx{background:rgba(255,255,255,0.05);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);font-size:12px;transition:all 0.2s}
+.fx{background:rgba(255,255,255,0.05);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);font-size:12px}
 .fx.on{background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;font-weight:700}
 
 /* Tools */
 .tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tool{background:rgba(255,255,255,0.05);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:all 0.2s}
+.tool{background:rgba(255,255,255,0.05);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07)}
 .tool.on{background:linear-gradient(135deg,rgba(168,85,247,0.4),rgba(59,130,246,0.4))}
 
 /* Range */
 .rrow{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent;padding:0;margin:0;height:auto}
-.toggle{width:50px;height:28px;border-radius:14px;background:rgba(255,255,255,0.15);position:relative;cursor:pointer;flex-shrink:0;transition:0.2s}
+
+/* Toggle */
+.toggle{width:50px;height:28px;border-radius:14px;background:rgba(255,255,255,0.15);position:relative;cursor:pointer;flex-shrink:0}
 .toggle.on{background:#a855f7}
 .dot{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:0.2s}
 .toggle.on .dot{left:25px}
 
 /* Grid */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.qbtn{border-radius:16px;padding:14px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all 0.2s}
-.qbtn:active{transform:scale(0.97)}
+.qbtn{border-radius:16px;padding:14px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px}
 .recent{background:rgba(255,255,255,0.04);border-radius:14px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
 .media-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .media-item{background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,0.07)}
@@ -84,12 +97,6 @@ input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent
 .stat{background:rgba(255,255,255,0.05);border-radius:14px;padding:14px 8px;text-align:center}
 .si{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer}
 
-/* Trim */
-.trim-wrap{padding:12px 0}
-.trim-bar{position:relative;height:40px;background:rgba(168,85,247,0.1);border-radius:10px;margin-bottom:8px;overflow:hidden}
-.trim-fill{position:absolute;top:0;bottom:0;background:linear-gradient(135deg,rgba(168,85,247,0.4),rgba(59,130,246,0.4));border-radius:10px;transition:all 0.1s}
-.trim-handle{position:absolute;top:0;bottom:0;width:16px;background:#a855f7;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff}
-
 /* Nav */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,10,15,0.97);border-top:1px solid rgba(255,255,255,0.07);display:flex;z-index:200}
 .ni{flex:1;padding:10px 0 8px;text-align:center;cursor:pointer;border-top:2px solid transparent}
@@ -98,19 +105,7 @@ input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent
 .ni .lb{font-size:9px;color:#555;font-weight:600;margin-top:2px}
 .ni.on .lb{color:#a855f7}
 
-/* CSS Filters */
-.filter-none{filter:none}
-.filter-grayscale{filter:grayscale(100%)}
-.filter-sepia{filter:sepia(100%)}
-.filter-bright{filter:brightness(1.4) contrast(1.1)}
-.filter-dark{filter:brightness(0.6) contrast(1.3)}
-.filter-vintage{filter:sepia(50%) contrast(1.2) brightness(0.9)}
-.filter-cool{filter:hue-rotate(180deg) saturate(1.3)}
-.filter-warm{filter:sepia(30%) saturate(1.5) brightness(1.1)}
-.filter-neon{filter:saturate(3) brightness(1.2) contrast(1.4)}
-.filter-blur{filter:blur(2px)}
-.filter-sharpen{filter:contrast(1.5) saturate(1.3)}
-.filter-fade{filter:brightness(1.2) saturate(0.7) contrast(0.9)}
+.filtermap-none{filter:none}
 </style>
 </head>
 <body>
@@ -148,113 +143,137 @@ input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent
 <div class="page on" id="p-home">
   <div style="font-size:24px;font-weight:800;margin-bottom:4px">Hello <span id="gname">👋</span>!</div>
   <div style="color:#a3a3a3;font-size:14px;margin-bottom:20px">Professional video editing at your fingertips</div>
-
-  <!-- REAL UPLOAD BOX -->
   <div class="upload-box" onclick="document.getElementById('fileInput').click()">
     <input type="file" id="fileInput" accept="video/*,image/*" onchange="handleFile(this)"/>
     <div style="font-size:48px;margin-bottom:8px">📹</div>
     <div style="font-weight:700;font-size:16px">Upload Video / Image</div>
     <div style="color:#a3a3a3;font-size:13px">Tap to select from gallery</div>
   </div>
-
   <div style="font-size:16px;font-weight:700;margin-bottom:12px">⚡ Quick Actions</div>
   <div class="grid2">
-    <div class="qbtn" style="background:linear-gradient(135deg,#a855f722,#a855f711);border:1px solid #a855f744" onclick="goEdit('Short Video')"><span style="font-size:22px">📱</span>Short Video</div>
-    <div class="qbtn" style="background:linear-gradient(135deg,#3b82f622,#3b82f611);border:1px solid #3b82f644" onclick="goEdit('Long Video')"><span style="font-size:22px">📺</span>Long Video</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#a855f722,#a855f711);border:1px solid #a855f744" onclick="goEdit()"><span style="font-size:22px">📱</span>Short Video</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#3b82f622,#3b82f611);border:1px solid #3b82f644" onclick="goEdit()"><span style="font-size:22px">📺</span>Long Video</div>
     <div class="qbtn" style="background:linear-gradient(135deg,#ec489922,#ec489911);border:1px solid #ec489944" onclick="sw('audio',document.querySelectorAll('.ni')[3])"><span style="font-size:22px">🎵</span>Song Edit</div>
-    <div class="qbtn" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b11);border:1px solid #f59e0b44" onclick="goEdit('Movie Clips')"><span style="font-size:22px">🎬</span>Movie Clips</div>
-    <div class="qbtn" style="background:linear-gradient(135deg,#10b98122,#10b98111);border:1px solid #10b98144" onclick="goEdit('Thumbnail')"><span style="font-size:22px">🖼️</span>Thumbnail</div>
-    <div class="qbtn" style="background:linear-gradient(135deg,#ef444422,#ef444411);border:1px solid #ef444444" onclick="goEdit('4K Export')"><span style="font-size:22px">4️⃣K</span>4K Export</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b11);border:1px solid #f59e0b44" onclick="goEdit()"><span style="font-size:22px">🎬</span>Movie Clips</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#10b98122,#10b98111);border:1px solid #10b98144" onclick="goEdit()"><span style="font-size:22px">🖼️</span>Thumbnail</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#ef444422,#ef444411);border:1px solid #ef444444" onclick="goEdit()"><span style="font-size:22px">4️⃣K</span>4K Export</div>
   </div>
-
   <div style="font-size:16px;font-weight:700;margin-bottom:12px">🕐 Recent Projects</div>
-  <div id="recentList">
-    <div style="color:#555;text-align:center;padding:20px;font-size:14px">📭 No recent projects<br><span style="font-size:12px">Upload a video to start!</span></div>
-  </div>
+  <div id="recentList"><div style="color:#555;text-align:center;padding:20px;font-size:14px">📭 No recent projects<br><span style="font-size:12px">Upload a video to start!</span></div></div>
 </div>
 
 <!-- EDIT -->
 <div class="page" id="p-edit">
-  <div id="videoSection">
-    <!-- Upload prompt if no video -->
-    <div id="noVideoPrompt" class="upload-box" onclick="document.getElementById('fileInput2').click()" style="margin-bottom:16px">
-      <input type="file" id="fileInput2" accept="video/*,image/*" onchange="handleFile(this)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer"/>
-      <div style="font-size:40px;margin-bottom:8px">📹</div>
-      <div style="font-weight:700">Tap to Upload Video</div>
-      <div style="color:#a3a3a3;font-size:13px">Select from gallery</div>
-    </div>
 
-    <!-- Video Player -->
-    <div class="video-wrap" id="videoWrap" style="display:none">
-      <video id="myVideo" controls playsinline></video>
-      <div class="video-info">
-        <span class="video-name" id="vidName">video.mp4</span>
-        <span class="video-size" id="vidSize">0 MB</span>
-      </div>
-      <!-- Filter Controls -->
-      <div class="controls">
-        <button class="ctrl-btn active" onclick="applyFilter('none',this)">Original</button>
-        <button class="ctrl-btn" onclick="applyFilter('grayscale',this)">B&W</button>
-        <button class="ctrl-btn" onclick="applyFilter('sepia',this)">Sepia</button>
-        <button class="ctrl-btn" onclick="applyFilter('bright',this)">Bright</button>
-        <button class="ctrl-btn" onclick="applyFilter('dark',this)">Dark</button>
-        <button class="ctrl-btn" onclick="applyFilter('vintage',this)">Vintage</button>
-        <button class="ctrl-btn" onclick="applyFilter('cool',this)">Cool</button>
-        <button class="ctrl-btn" onclick="applyFilter('warm',this)">Warm</button>
-        <button class="ctrl-btn" onclick="applyFilter('neon',this)">Neon</button>
-      </div>
-    </div>
+  <!-- Upload prompt -->
+  <div class="upload-box" id="noVideoPrompt" onclick="document.getElementById('fileInput2').click()" style="margin-bottom:16px">
+    <input type="file" id="fileInput2" accept="video/*,image/*" onchange="handleFile(this)"/>
+    <div style="font-size:40px;margin-bottom:8px">📹</div>
+    <div style="font-weight:700">Tap to Upload Video</div>
+    <div style="color:#a3a3a3;font-size:13px">Select from gallery</div>
+  </div>
 
-    <!-- Image Preview -->
-    <div id="imgWrap" style="display:none;margin-bottom:16px">
-      <img id="myImg" style="width:100%;border-radius:18px;border:1px solid rgba(168,85,247,0.3);max-height:260px;object-fit:contain;background:#000"/>
-      <div class="controls">
-        <button class="ctrl-btn active" onclick="applyImgFilter('none',this)">Original</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('grayscale',this)">B&W</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('sepia',this)">Sepia</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('bright',this)">Bright</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('vintage',this)">Vintage</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('cool',this)">Cool</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('warm',this)">Warm</button>
-        <button class="ctrl-btn" onclick="applyImgFilter('neon',this)">Neon</button>
-      </div>
+  <!-- Video Player -->
+  <div class="video-wrap" id="videoWrap" style="display:none">
+    <video id="myVideo" controls playsinline preload="metadata" ontimeupdate="updatePlayhead()"></video>
+    <div class="video-info">
+      <span id="vidName" style="color:#c084fc;font-weight:600;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">video.mp4</span>
+      <span id="vidDur" style="color:#666">0:00</span>
+    </div>
+    <!-- Quick Filters -->
+    <div class="controls" id="filterBtns">
+      <button class="ctrl-btn active" onclick="applyFilter('',this)">Original</button>
+      <button class="ctrl-btn" onclick="applyFilter('grayscale(100%)',this)">B&W</button>
+      <button class="ctrl-btn" onclick="applyFilter('sepia(100%)',this)">Sepia</button>
+      <button class="ctrl-btn" onclick="applyFilter('brightness(1.4)',this)">Bright</button>
+      <button class="ctrl-btn" onclick="applyFilter('brightness(0.6)',this)">Dark</button>
+      <button class="ctrl-btn" onclick="applyFilter('sepia(50%) contrast(1.2)',this)">Vintage</button>
+      <button class="ctrl-btn" onclick="applyFilter('hue-rotate(180deg)',this)">Cool</button>
+      <button class="ctrl-btn" onclick="applyFilter('saturate(3) brightness(1.2)',this)">Neon</button>
     </div>
   </div>
 
-  <!-- Video Options -->
+  <!-- Image Preview -->
+  <div id="imgWrap" style="display:none;margin-bottom:16px">
+    <img id="myImg" style="width:100%;border-radius:18px;border:1px solid rgba(168,85,247,0.3);max-height:220px;object-fit:contain;background:#000"/>
+    <div class="controls">
+      <button class="ctrl-btn active" onclick="applyImgFilter('',this)">Original</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('grayscale(100%)',this)">B&W</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('sepia(100%)',this)">Sepia</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('brightness(1.4)',this)">Bright</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('sepia(50%) contrast(1.2)',this)">Vintage</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('hue-rotate(180deg)',this)">Cool</button>
+      <button class="ctrl-btn" onclick="applyImgFilter('saturate(3)',this)">Neon</button>
+    </div>
+  </div>
+
+  <!-- ✂️ TRIM SECTION -->
+  <div class="trim-section" id="trimSection" style="display:none">
+    <div class="trim-title">✂️ Video Trim / Cut</div>
+
+    <!-- Waveform -->
+    <div class="waveform" id="waveform"></div>
+
+    <!-- Trim Bar -->
+    <div class="trim-bar" id="trimBar" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
+      <div class="trim-bg"></div>
+      <div class="trim-selected" id="trimSelected"></div>
+      <div class="trim-handle-left" id="handleLeft" onmousedown="startHandle(event,'left')" ontouchstart="startHandle(event,'left')">◀</div>
+      <div class="trim-handle-right" id="handleRight" onmousedown="startHandle(event,'right')" ontouchstart="startHandle(event,'right')">▶</div>
+      <div class="trim-playhead" id="playhead"></div>
+    </div>
+
+    <!-- Start/End Times -->
+    <div class="trim-inputs">
+      <div class="trim-input-wrap">
+        <div class="trim-input-label">▶ Start Time</div>
+        <div class="trim-input-val" id="startTimeDisplay">0:00</div>
+      </div>
+      <div class="trim-input-wrap">
+        <div class="trim-input-label">⏹ End Time</div>
+        <div class="trim-input-val" id="endTimeDisplay">0:00</div>
+      </div>
+    </div>
+
+    <!-- Duration -->
+    <div style="text-align:center;font-size:13px;color:#a3a3a3;margin-bottom:12px">
+      Selected: <span id="selectedDur" style="color:#a855f7;font-weight:700">0:00</span>
+    </div>
+
+    <!-- Manual Input -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div>
+        <div style="font-size:11px;color:#a3a3a3;margin-bottom:4px">Start (seconds)</div>
+        <input type="number" id="startInput" min="0" step="0.1" placeholder="0" oninput="updateFromInput()" style="margin-bottom:0;padding:8px 12px;font-size:14px"/>
+      </div>
+      <div>
+        <div style="font-size:11px;color:#a3a3a3;margin-bottom:4px">End (seconds)</div>
+        <input type="number" id="endInput" min="0" step="0.1" placeholder="10" oninput="updateFromInput()" style="margin-bottom:0;padding:8px 12px;font-size:14px"/>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="trim-btns">
+      <button class="trim-btn trim-preview-btn" onclick="previewTrim()">▶ Preview Trim</button>
+      <button class="trim-btn trim-apply-btn" onclick="applyTrim()">✂️ Apply Trim</button>
+    </div>
+  </div>
+
+  <!-- Adjustments -->
+  <div class="card" id="adjustCard" style="display:none">
+    <div style="font-weight:700;margin-bottom:12px">🎨 Adjustments</div>
+    <div style="font-size:12px;color:#a3a3a3;margin-bottom:4px">Brightness</div>
+    <div class="rrow"><span style="font-size:11px">🌑</span><input type="range" min="0" max="200" value="100" id="brightRange" oninput="adjustVideo()"/><span style="font-size:11px">☀️</span></div>
+    <div style="font-size:12px;color:#a3a3a3;margin-bottom:4px">Contrast</div>
+    <div class="rrow"><span style="font-size:11px">◐</span><input type="range" min="0" max="200" value="100" id="contrastRange" oninput="adjustVideo()"/><span style="font-size:11px">◉</span></div>
+    <div style="font-size:12px;color:#a3a3a3;margin-bottom:4px">Saturation</div>
+    <div class="rrow"><span style="font-size:11px">🩶</span><input type="range" min="0" max="300" value="100" id="satRange" oninput="adjustVideo()"/><span style="font-size:11px">🌈</span></div>
+  </div>
+
+  <!-- Type -->
   <div style="display:flex;gap:8px;margin-bottom:16px">
     <button id="bshort" class="btn" onclick="setType('short')" style="flex:1;margin:0">📱 Short</button>
     <button id="blong" class="btn-o" onclick="setType('long')" style="flex:1;margin:0">📺 Long</button>
-  </div>
-
-  <!-- Brightness/Contrast -->
-  <div class="card" id="adjustCard" style="display:none">
-    <div style="font-weight:700;margin-bottom:12px">🎨 Adjustments</div>
-    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Brightness</div>
-    <div class="rrow">
-      <span style="font-size:12px;color:#666">🌑</span>
-      <input type="range" min="0" max="200" value="100" id="brightRange" oninput="adjustVideo()"/>
-      <span style="font-size:12px;color:#666">☀️</span>
-    </div>
-    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Contrast</div>
-    <div class="rrow">
-      <span style="font-size:12px;color:#666">◐</span>
-      <input type="range" min="0" max="200" value="100" id="contrastRange" oninput="adjustVideo()"/>
-      <span style="font-size:12px;color:#666">◉</span>
-    </div>
-    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Saturation</div>
-    <div class="rrow">
-      <span style="font-size:12px;color:#666">🩶</span>
-      <input type="range" min="0" max="300" value="100" id="satRange" oninput="adjustVideo()"/>
-      <span style="font-size:12px;color:#666">🌈</span>
-    </div>
-  </div>
-
-  <!-- Text to Video -->
-  <div class="card">
-    <div style="font-weight:700;margin-bottom:10px">📝 Text → Video</div>
-    <textarea id="txtin" placeholder="Type script here..."></textarea>
-    <button class="btn" onclick="genVideo()">Generate Video</button>
   </div>
 
   <!-- Tools -->
@@ -274,289 +293,7 @@ input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent
   <div style="font-size:20px;font-weight:800;margin-bottom:20px">🎵 Audio Studio</div>
   <div class="card">
     <div style="font-weight:700;margin-bottom:12px">🔊 Voice Thickness</div>
-    <div class="rrow">
-      <span style="font-size:12px;color:#a3a3a3">Thin</span>
-      <input type="range" min="0" max="100" value="50" id="thick" oninput="updThick(this.value)"/>
-      <span style="font-size:12px;color:#a3a3a3">Thick</span>
-    </div>
+    <div class="rrow"><span style="font-size:12px;color:#a3a3a3">Thin</span><input type="range" min="0" max="100" value="50" id="thick" oninput="updThick(this.value)"/><span style="font-size:12px;color:#a3a3a3">Thick</span></div>
     <div id="thickval" style="text-align:center;font-size:13px;color:#a855f7">50% — Normal</div>
   </div>
-  <div class="card">
-    <div style="font-weight:700;margin-bottom:12px">🎙️ Professional Voice</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button onclick="notify('Normal voice! 🎙️')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Normal</button>
-      <button onclick="notify('Pro voice! 🎤')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Pro</button>
-      <button onclick="notify('Clean voice! ✨')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Clean</button>
-      <button onclick="notify('Deep voice! 🔊')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Deep</button>
-      <button onclick="notify('High voice! 🎵')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">High</button>
-    </div>
-  </div>
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <div><div style="font-weight:700">🧹 Clean Voice</div><div style="color:#a3a3a3;font-size:13px;margin-top:4px">Remove noise</div></div>
-      <div class="toggle" id="ctoggle" onclick="togClean()"><div class="dot"></div></div>
-    </div>
-  </div>
-  <div class="card">
-    <div style="font-weight:700;margin-bottom:8px">🎤 Remove BG Voice</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn" style="flex:1;margin:0" onclick="notify('Vocals isolated! 🎤')">Keep Vocals</button>
-      <button class="btn-o" style="flex:1;margin:0" onclick="notify('Music isolated! 🎵')">Keep Music</button>
-    </div>
-  </div>
-  <div class="card">
-    <div style="font-weight:700;margin-bottom:12px">🎶 Song Editor</div>
-    <div class="song-grid">
-      <button class="song-btn" onclick="notify('Tempo adjusted! 🎵')">Tempo</button>
-      <button class="song-btn" onclick="notify('Pitch adjusted! 🎼')">Pitch</button>
-      <button class="song-btn" onclick="notify('Bass adjusted! 🔊')">Bass</button>
-      <button class="song-btn" onclick="notify('Treble adjusted! 🎶')">Treble</button>
-      <button class="song-btn" onclick="notify('Echo applied! 🔁')">Echo</button>
-      <button class="song-btn" onclick="notify('Reverb applied! 🎸')">Reverb</button>
-      <button class="song-btn" onclick="notify('Fade In added! ⬆️')">Fade In</button>
-      <button class="song-btn" onclick="notify('Fade Out added! ⬇️')">Fade Out</button>
-    </div>
-  </div>
-</div>
-
-<!-- SEARCH -->
-<div class="page" id="p-search">
-  <div style="font-size:20px;font-weight:800;margin-bottom:16px">🔍 Search Media</div>
-  <div style="position:relative;margin-bottom:20px">
-    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px">🔍</span>
-    <input type="text" style="padding-left:44px;margin-bottom:0" id="srch" placeholder="Search videos, images..." oninput="filterMedia(this.value)"/>
-  </div>
-  <div class="media-grid" id="mgrid"></div>
-  <div id="nores" style="display:none;text-align:center;color:#555;margin-top:40px"><div style="font-size:48px">🔭</div><div>No results found</div></div>
-</div>
-
-<!-- PROFILE -->
-<div class="page" id="p-profile">
-  <div style="font-size:20px;font-weight:800;margin-bottom:20px">👤 Profile</div>
-  <div id="pout" style="text-align:center;padding-top:40px">
-    <div style="font-size:64px;margin-bottom:16px">🔐</div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:8px">Login Required</div>
-    <div style="color:#a3a3a3;margin-bottom:24px">Create account to save projects</div>
-    <button class="btn" onclick="openAuth('login')">Login / Sign Up</button>
-    <button class="btn-o" onclick="openAuth('otp')">📱 Verify Phone (OTP)</button>
-  </div>
-  <div id="pin" style="display:none">
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px" id="avi">U</div>
-      <div style="font-size:20px;font-weight:700" id="pname">User</div>
-      <div style="color:#a855f7;font-size:14px;margin-top:4px">Pro Editor</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
-      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7" id="vidCount">0</div><div style="font-size:12px;color:#a3a3a3">Videos</div></div>
-      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7">0</div><div style="font-size:12px;color:#a3a3a3">Edits</div></div>
-      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7">0</div><div style="font-size:12px;color:#a3a3a3">Projects</div></div>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;margin-bottom:12px">⚙️ Settings</div>
-      <div class="si" onclick="notify('Edit Profile!')"><span>Edit Profile</span><span style="color:#555">›</span></div>
-      <div class="si" onclick="notify('Notifications!')"><span>Notifications</span><span style="color:#555">›</span></div>
-      <div class="si" onclick="notify('Storage: '+getStorageUsed())"><span>Storage</span><span style="color:#555">›</span></div>
-      <div class="si" onclick="notify('Privacy!')"><span>Privacy</span><span style="color:#555">›</span></div>
-      <div class="si" onclick="notify('Help!')"><span>Help & Support</span><span style="color:#555">›</span></div>
-      <div class="si" onclick="notify('Updates!')"><span>Update / New Features</span><span style="color:#555">›</span></div>
-    </div>
-    <button class="btn" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3)" onclick="logout()">🚪 Logout</button>
-  </div>
-</div>
-
-</div>
-
-<!-- Nav -->
-<div class="nav">
-  <div class="ni on" onclick="sw('home',this)"><div class="ic">🏠</div><div class="lb">Home</div></div>
-  <div class="ni" onclick="sw('edit',this)"><div class="ic">✂️</div><div class="lb">Edit</div></div>
-  <div class="ni" onclick="sw('effects',this)"><div class="ic">✨</div><div class="lb">Effects</div></div>
-  <div class="ni" onclick="sw('audio',this)"><div class="ic">🎵</div><div class="lb">Audio</div></div>
-  <div class="ni" onclick="sw('search',this)"><div class="ic">🔍</div><div class="lb">Search</div></div>
-  <div class="ni" onclick="sw('profile',this)"><div class="ic">👤</div><div class="lb">Profile</div></div>
-</div>
-</div>
-
-<script>
-let loggedIn=false,curUser='',uploadedFiles=[],currentFilter='none';
-const EFFECTS=['Cinematic','Glitch','Neon','Vintage','VHS','Bloom','Film Grain','Chromatic','Bokeh','Duotone','Noir','Sunset','Arctic','Lava','Matrix','Cyberpunk','Pastel','Sketch','Oil Paint','Watercolor','Pop Art','Comic','Mosaic','Pixelate','Mirror','Kaleidoscope','Prism','Haze','Rain','Snow','Stars','Lightning','Fire','Smoke','Confetti','Sparkle','Glitter','Rainbow','Aurora','Galaxy','Deep Sea','Forest','Desert','Urban','Retro','Polaroid','Faded','Washed','Matte','Vivid','HDR','Dramatic','Soft','Sharp','Warm','Cool','Golden Hour','Blue Hour','Moody','Bright'];
-const TOOLS=[{i:'✂️',l:'Trim'},{i:'🔄',l:'Rotate'},{i:'📐',l:'Crop'},{i:'🎨',l:'Adjust'},{i:'💧',l:'Filter'},{i:'📝',l:'Text'},{i:'🎬',l:'Transition'},{i:'🖼️',l:'Thumbnail'},{i:'🔊',l:'Audio'},{i:'🎙️',l:'Voice'},{i:'🚫',l:'BG Remove'},{i:'4️⃣',l:'4K Export'},{i:'🎞️',l:'Clips'},{i:'🧹',l:'Clean'},{i:'📱',l:'Short'},{i:'📺',l:'Long'}];
-const MEDIA=[{t:'video',n:'Sunset Timelapse',e:'🌅',d:'0:32'},{t:'image',n:'Mountain View',e:'🏔️'},{t:'video',n:'City Walk',e:'🌆',d:'1:20'},{t:'image',n:'Beach Waves',e:'🌊'},{t:'video',n:'Forest Rain',e:'🌿',d:'2:10'},{t:'image',n:'Night Sky',e:'🌠'},{t:'video',n:'Street Music',e:'🎸',d:'3:05'},{t:'image',n:'Abstract Art',e:'🎨'}];
-const filterMap={none:'',grayscale:'grayscale(100%)',sepia:'sepia(100%)',bright:'brightness(1.4) contrast(1.1)',dark:'brightness(0.6) contrast(1.3)',vintage:'sepia(50%) contrast(1.2) brightness(0.9)',cool:'hue-rotate(180deg) saturate(1.3)',warm:'sepia(30%) saturate(1.5) brightness(1.1)',neon:'saturate(3) brightness(1.2) contrast(1.4)',blur:'blur(2px)',sharpen:'contrast(1.5) saturate(1.3)',fade:'brightness(1.2) saturate(0.7) contrast(0.9)'};
-
-function notify(m){const n=document.getElementById('notif');n.textContent=m;n.style.display='block';setTimeout(()=>n.style.display='none',2500)}
-function sw(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');el.classList.add('on')}
-
-// REAL FILE UPLOAD
-function handleFile(input){
-  const file=input.files[0];
-  if(!file)return;
-  const url=URL.createObjectURL(file);
-  const isVideo=file.type.startsWith('video/');
-  const isImage=file.type.startsWith('image/');
-  const sizeMB=(file.size/1024/1024).toFixed(1);
-
-  // Save to recent
-  uploadedFiles.unshift({name:file.name,size:sizeMB,type:isVideo?'video':'image',url});
-  updateRecent();
-
-  // Show in edit tab
-  document.getElementById('noVideoPrompt').style.display='none';
-  document.getElementById('adjustCard').style.display='block';
-
-  if(isVideo){
-    document.getElementById('videoWrap').style.display='block';
-    document.getElementById('imgWrap').style.display='none';
-    const vid=document.getElementById('myVideo');
-    vid.src=url;
-    vid.style.filter='';
-    document.getElementById('vidName').textContent=file.name;
-    document.getElementById('vidSize').textContent=sizeMB+' MB';
-    currentFilter='none';
-  } else if(isImage){
-    document.getElementById('imgWrap').style.display='block';
-    document.getElementById('videoWrap').style.display='none';
-    const img=document.getElementById('myImg');
-    img.src=url;
-    img.style.filter='';
-  }
-
-  notify('✅ '+file.name+' uploaded!');
-  sw('edit',document.querySelectorAll('.ni')[1]);
-
-  // Update stats
-  if(document.getElementById('vidCount')){
-    document.getElementById('vidCount').textContent=uploadedFiles.length;
-  }
-}
-
-function updateRecent(){
-  const list=document.getElementById('recentList');
-  if(uploadedFiles.length===0){list.innerHTML='<div style="color:#555;text-align:center;padding:20px;font-size:14px">📭 No recent projects</div>';return;}
-  list.innerHTML=uploadedFiles.slice(0,5).map(f=>`
-    <div class="recent" onclick="reloadFile('${f.url}','${f.name}','${f.type}','${f.size}')">
-      <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:26px">${f.type==='video'?'🎞️':'🖼️'}</span>
-        <div>
-          <div style="font-weight:600;font-size:14px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</div>
-          <div style="color:#666;font-size:12px">${f.size} MB • ${f.type}</div>
-        </div>
-      </div>
-      <span style="color:#a855f7">▶</span>
-    </div>
-  `).join('');
-}
-
-function reloadFile(url,name,type,size){
-  document.getElementById('noVideoPrompt').style.display='none';
-  document.getElementById('adjustCard').style.display='block';
-  if(type==='video'){
-    document.getElementById('videoWrap').style.display='block';
-    document.getElementById('imgWrap').style.display='none';
-    document.getElementById('myVideo').src=url;
-    document.getElementById('vidName').textContent=name;
-    document.getElementById('vidSize').textContent=size+' MB';
-  } else {
-    document.getElementById('imgWrap').style.display='block';
-    document.getElementById('videoWrap').style.display='none';
-    document.getElementById('myImg').src=url;
-  }
-  sw('edit',document.querySelectorAll('.ni')[1]);
-}
-
-// FILTERS
-function applyFilter(f,btn){
-  const vid=document.getElementById('myVideo');
-  vid.style.filter=filterMap[f]||'';
-  currentFilter=f;
-  document.querySelectorAll('#videoWrap .ctrl-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  notify(f==='none'?'Original filter':''+f+' filter applied! ✨');
-}
-
-function applyImgFilter(f,btn){
-  const img=document.getElementById('myImg');
-  img.style.filter=filterMap[f]||'';
-  document.querySelectorAll('#imgWrap .ctrl-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  notify(f==='none'?'Original filter':''+f+' filter applied! ✨');
-}
-
-// ADJUSTMENTS
-function adjustVideo(){
-  const b=document.getElementById('brightRange').value;
-  const c=document.getElementById('contrastRange').value;
-  const s=document.getElementById('satRange').value;
-  const el=document.getElementById('myVideo').style.display!=='none'?document.getElementById('myVideo'):document.getElementById('myImg');
-  el.style.filter=`brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
-}
-
-function goEdit(l){notify(l+' selected!');sw('edit',document.querySelectorAll('.ni')[1])}
-function setType(t){document.getElementById('bshort').className=t==='short'?'btn':'btn-o';document.getElementById('blong').className=t==='long'?'btn':'btn-o';notify(t==='short'?'Short mode! 📱':'Long mode! 📺')}
-function genVideo(){const t=document.getElementById('txtin').value;if(t){notify('🎬 Video script saved! Add video to apply.');}}
-function updThick(v){document.getElementById('thickval').textContent=v+'% — '+(v<30?'Thin':v<70?'Normal':'Thick');notify('Voice: '+v+'%')}
-function togClean(){const t=document.getElementById('ctoggle');t.classList.toggle('on');notify(t.classList.contains('on')?'Voice cleaned! ✅':'Cleaning off')}
-function getStorageUsed(){return uploadedFiles.reduce((a,f)=>a+parseFloat(f.size),0).toFixed(1)+' MB used'}
-function filterMedia(q){const f=MEDIA.filter(r=>r.n.toLowerCase().includes(q.toLowerCase()));buildMedia(f)}
-
-function buildMedia(list){
-  const g=document.getElementById('mgrid');g.innerHTML='';
-  document.getElementById('nores').style.display=list.length?'none':'block';
-  list.forEach(r=>{
-    const d=document.createElement('div');d.className='media-item';
-    d.innerHTML='<div class="media-thumb">'+r.e+(r.d?'<span style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);border-radius:8px;padding:2px 6px;font-size:11px">'+r.d+'</span>':'')+'<span style="position:absolute;top:6px;left:8px;background:'+(r.t==='video'?'rgba(168,85,247,0.8)':'rgba(59,130,246,0.8)')+';border-radius:8px;padding:2px 6px;font-size:10px">'+r.t+'</span></div><div style="padding:10px 12px;font-size:13px;font-weight:600">'+r.n+'</div>';
-    d.onclick=()=>notify(r.n+' selected! ✅');
-    g.appendChild(d);
-  });
-}
-
-// Auth
-function openAuth(m){
-  const modal=document.getElementById('amodal');modal.style.display='flex';
-  document.getElementById('aform').style.display='none';document.getElementById('otpform').style.display='none';
-  if(m==='login'){document.getElementById('atitle').textContent='🔐 Login';document.getElementById('aform').style.display='block';document.getElementById('abtns').innerHTML='<button class="btn" onclick="doLogin()">Login</button><button class="btn-o" onclick="openAuth(\'signup\')">New? Sign Up</button><button class="btn-o" onclick="openAuth(\'otp\')">📱 Verify Phone</button>';}
-  else if(m==='signup'){document.getElementById('atitle').textContent='📝 Sign Up';document.getElementById('aform').style.display='block';document.getElementById('abtns').innerHTML='<button class="btn" onclick="doSignup()">Create Account</button><button class="btn-o" onclick="openAuth(\'login\')">Already have account?</button>';}
-  else{document.getElementById('atitle').textContent='📱 Verify OTP';document.getElementById('otpform').style.display='block';document.getElementById('abtns').innerHTML='';}
-}
-function closeAuth(){document.getElementById('amodal').style.display='none'}
-function doLogin(){const u=document.getElementById('auser').value||'User';setLogin(u);closeAuth();notify('Welcome back, '+u+'! 🎉')}
-function doSignup(){const u=document.getElementById('auser').value||'User';setLogin(u);closeAuth();notify('Account created! Welcome '+u+'! 🎉')}
-function setLogin(u){loggedIn=true;curUser=u;document.getElementById('lbtn').textContent='👤 '+u;document.getElementById('lbtn').onclick=logout;document.getElementById('gname').textContent=u;document.getElementById('pout').style.display='none';document.getElementById('pin').style.display='block';document.getElementById('pname').textContent=u;document.getElementById('avi').textContent=u[0].toUpperCase()}
-function logout(){loggedIn=false;curUser='';document.getElementById('lbtn').textContent='Login';document.getElementById('lbtn').onclick=()=>openAuth('login');document.getElementById('gname').textContent='👋';document.getElementById('pout').style.display='block';document.getElementById('pin').style.display='none';notify('Logged out!')}
-function sendOtp(){const p=document.getElementById('ophone').value;if(p.length>=10){document.getElementById('otp1').style.display='none';document.getElementById('otp2').style.display='block';notify('OTP sent! Use: 1234')}else notify('Valid phone number daalo!')}
-function verifyOtp(){if(document.getElementById('ocode').value==='1234'){notify('✅ Phone Verified!');closeAuth()}else notify('❌ Wrong OTP! Use 1234')}
-
-window.onload=function(){
-  // Build tools
-  const tg=document.getElementById('toolsgrid');
-  TOOLS.forEach(t=>{
-    const d=document.createElement('div');d.className='tool';d.id='tl-'+t.l;
-    d.innerHTML='<div style="font-size:20px">'+t.i+'</div><div style="font-size:10px;color:#ccc;margin-top:3px">'+t.l+'</div>';
-    d.onclick=()=>{
-      if(t.l==='Adjust'){document.getElementById('adjustCard').style.display=document.getElementById('adjustCard').style.display==='none'?'block':'none';notify('Adjustments panel!');}
-      else{document.querySelectorAll('.tool').forEach(x=>x.classList.remove('on'));d.classList.add('on');notify(t.l+' selected!');}
-    };
-    tg.appendChild(d);
-  });
-  // Build effects
-  const fg=document.getElementById('fxgrid');
-  EFFECTS.forEach(e=>{
-    const d=document.createElement('div');d.className='fx';d.textContent=e;
-    d.onclick=()=>{
-      document.querySelectorAll('.fx').forEach(x=>x.classList.remove('on'));
-      d.classList.add('on');
-      const vid=document.getElementById('myVideo');
-      const img=document.getElementById('myImg');
-      if(vid.src)vid.style.filter=filterMap[e.toLowerCase()]||filterMap.neon;
-      if(img.src)img.style.filter=filterMap[e.toLowerCase()]||filterMap.neon;
-      notify(e+' applied! ✨');
-    };
-    fg.appendChild(d);
-  });
-  const more=document.createElement('div');more.className='fx';more.style.gridColumn='span 3';more.style.color='#a855f7';more.style.borderColor='rgba(168,85,247,0.3)';more.textContent='+ 940 more effects';fg.appendChild(more);
-  buildMedia(MEDIA);
-  updateRecent();
-};
-</script>
-</body>
-</html>
+  <div c
