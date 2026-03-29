@@ -1,315 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pro Edit</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(135deg,#0a0a0f,#12001a,#000d1a);font-family:'Segoe UI',sans-serif;color:#fff;min-height:100vh}
-    .app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
-    
-    /* Header */
-    .header{padding:18px 20px 12px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-    .logo{display:flex;align-items:center;gap:10}
-    .logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900}
-    .logo-text{font-size:20px;font-weight:800;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .login-btn{background:linear-gradient(135deg,#a855f7,#3b82f6);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;cursor:pointer;border:none;color:#fff}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pro Edit</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#0a0a0f,#12001a,#000d1a);font-family:'Segoe UI',sans-serif;color:#fff;min-height:100vh}
+.app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.header{padding:16px 20px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+.logo-text{font-size:20px;font-weight:800;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-btn{background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;border-radius:20px;padding:6px 16px;color:#fff;font-weight:700;font-size:13px;cursor:pointer}
+.notif{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#a855f7,#3b82f6);border-radius:30px;padding:10px 24px;font-size:13px;font-weight:700;z-index:9999;white-space:nowrap;display:none;box-shadow:0 4px 24px rgba(168,85,247,0.5)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:500;padding:24px}
+.modal{background:linear-gradient(135deg,#1a0030,#001a2e);border:1px solid rgba(168,85,247,0.3);border-radius:24px;padding:28px;width:100%;max-width:360px}
+.modal h2{font-size:22px;font-weight:800;margin-bottom:20px;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+input[type=text],input[type=password],input[type=tel],input[type=number],textarea{display:block;width:100%;margin-bottom:12px;background:rgba(255,255,255,0.07);border:1px solid rgba(168,85,247,0.3);border-radius:12px;color:#fff;padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box}
+input::placeholder,textarea::placeholder{color:#555}
+textarea{resize:none;height:60px}
+.btn{display:block;width:100%;padding:12px;background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;border-radius:12px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:8px;font-family:inherit;text-align:center}
+.btn-o{display:block;width:100%;padding:12px;background:transparent;border:1px solid rgba(168,85,247,0.4);border-radius:12px;color:#c084fc;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:8px;font-family:inherit}
+.content{flex:1;overflow-y:auto;padding-bottom:80px}
+.page{padding:20px;display:none}
+.page.on{display:block}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px;margin-bottom:16px}
 
-    /* Notification */
-    .notif{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#a855f7,#3b82f6);border-radius:30px;padding:10px 24px;font-size:13px;font-weight:700;z-index:9999;white-space:nowrap;box-shadow:0 4px 24px rgba(168,85,247,0.5);display:none}
+/* Upload Box */
+.upload-box{background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(59,130,246,0.15));border:2px dashed rgba(168,85,247,0.4);border-radius:20px;padding:28px;text-align:center;cursor:pointer;margin-bottom:20px;position:relative;overflow:hidden}
+.upload-box:active{border-color:#a855f7;background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(59,130,246,0.25))}
+#fileInput{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 
-    /* Modal */
-    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:500;padding:24px}
-    .modal-bg.show{display:flex}
-    .modal{background:linear-gradient(135deg,#1a0030,#001a2e);border:1px solid rgba(168,85,247,0.3);border-radius:24px;padding:28px;width:100%;max-width:360px}
-    .modal-title{font-size:22px;font-weight:800;margin-bottom:20px;background:linear-gradient(90deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+/* Video Player */
+.video-wrap{background:#000;border-radius:18px;margin-bottom:16px;overflow:hidden;border:1px solid rgba(168,85,247,0.3);position:relative}
+#myVideo{width:100%;max-height:260px;display:block;border-radius:18px}
+.video-info{padding:10px 14px;background:rgba(168,85,247,0.1);display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.video-name{color:#c084fc;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.video-size{color:#666;font-size:11px}
+.no-video{height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#555}
 
-    /* Content */
-    .content{flex:1;overflow-y:auto;padding-bottom:80px}
-    .page{padding:20px;display:none}
-    .page.active{display:block}
+/* Controls */
+.controls{display:flex;gap:8px;padding:10px 14px;background:rgba(0,0,0,0.3);flex-wrap:wrap}
+.ctrl-btn{padding:8px 14px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit}
+.ctrl-btn.active{background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff}
+.ctrl-btn:active{transform:scale(0.95)}
 
-    /* Inputs */
-    input,textarea{display:block;width:100%;margin-bottom:12px;background:rgba(255,255,255,0.07);border:1px solid rgba(168,85,247,0.3);border-radius:12px;color:#fff;padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box}
-    input::placeholder,textarea::placeholder{color:#555}
-    textarea{resize:none;height:60px}
+/* Filter Preview */
+.filter-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.filter-item{border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;position:relative}
+.filter-item.active{border-color:#a855f7}
+.filter-item video{width:100%;height:70px;object-fit:cover}
+.filter-label{text-align:center;font-size:10px;color:#ccc;padding:4px;background:rgba(0,0,0,0.5)}
 
-    /* Buttons */
-    .btn{display:block;width:100%;padding:13px 0;background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;border-radius:12px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:10px;font-family:inherit}
-    .btn-out{display:block;width:100%;padding:13px 0;background:transparent;border:1px solid rgba(168,85,247,0.4);border-radius:12px;color:#c084fc;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:10px;font-family:inherit}
-    .btn-close{background:transparent;border:none;color:#666;cursor:pointer;font-size:14px;font-family:inherit;width:100%;padding:8px}
+/* Effects */
+.fx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fx{background:rgba(255,255,255,0.05);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);font-size:12px;transition:all 0.2s}
+.fx.on{background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;font-weight:700}
 
-    /* Card */
-    .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px;margin-bottom:16px}
-    .card-title{font-weight:700;margin-bottom:12px;font-size:15px}
+/* Tools */
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tool{background:rgba(255,255,255,0.05);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:all 0.2s}
+.tool.on{background:linear-gradient(135deg,rgba(168,85,247,0.4),rgba(59,130,246,0.4))}
 
-    /* Upload Box */
-    .upload-box{background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(59,130,246,0.15));border:2px dashed rgba(168,85,247,0.4);border-radius:20px;padding:32px;text-align:center;cursor:pointer;margin-bottom:20px}
-    .upload-box:hover{border-color:rgba(168,85,247,0.8)}
-    .upload-icon{font-size:48px;margin-bottom:8px}
-    .upload-title{font-weight:700;font-size:16px}
-    .upload-sub{color:#a3a3a3;font-size:13px}
+/* Range */
+.rrow{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+input[type=range]{flex:1;accent-color:#a855f7;border:none;background:transparent;padding:0;margin:0;height:auto}
+.toggle{width:50px;height:28px;border-radius:14px;background:rgba(255,255,255,0.15);position:relative;cursor:pointer;flex-shrink:0;transition:0.2s}
+.toggle.on{background:#a855f7}
+.dot{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:0.2s}
+.toggle.on .dot{left:25px}
 
-    /* Quick Actions */
-    .section-title{font-size:16px;font-weight:700;margin-bottom:12px}
-    .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
-    .quick-item{border-radius:16px;padding:16px 12px;display:flex;align-items:center;gap:10;cursor:pointer;font-weight:600;font-size:14px}
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.qbtn{border-radius:16px;padding:14px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all 0.2s}
+.qbtn:active{transform:scale(0.97)}
+.recent{background:rgba(255,255,255,0.04);border-radius:14px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.media-item{background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,0.07)}
+.media-thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;background:rgba(168,85,247,0.1)}
+.song-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.song-btn{padding:10px;border-radius:10px;border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.1);color:#93c5fd;cursor:pointer;font-size:13px;font-family:inherit}
+.stat{background:rgba(255,255,255,0.05);border-radius:14px;padding:14px 8px;text-align:center}
+.si{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer}
 
-    /* Recent */
-    .recent-item{background:rgba(255,255,255,0.04);border-radius:14px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-    .recent-info{display:flex;align-items:center;gap:12px}
-    .recent-icon{font-size:28px}
-    .recent-name{font-weight:600;font-size:14px}
-    .recent-sub{color:#666;font-size:12px}
-    .recent-play{color:#a855f7;font-size:18px}
+/* Trim */
+.trim-wrap{padding:12px 0}
+.trim-bar{position:relative;height:40px;background:rgba(168,85,247,0.1);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.trim-fill{position:absolute;top:0;bottom:0;background:linear-gradient(135deg,rgba(168,85,247,0.4),rgba(59,130,246,0.4));border-radius:10px;transition:all 0.1s}
+.trim-handle{position:absolute;top:0;bottom:0;width:16px;background:#a855f7;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff}
 
-    /* Video Preview */
-    .preview{background:#000;border-radius:18px;height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;position:relative;overflow:hidden;border:1px solid rgba(168,85,247,0.3)}
-    .preview-big{font-size:64px}
-    .preview-bar{position:absolute;bottom:10px;left:16px;right:16px}
-    .progress-bg{background:rgba(168,85,247,0.3);border-radius:4px;height:4px;margin-bottom:8px}
-    .progress-fill{background:#a855f7;width:35%;height:100%;border-radius:4px}
-    .preview-time{display:flex;justify-content:space-between;font-size:12px;color:#ccc}
-    .badge{position:absolute;top:8px;border-radius:10px;padding:3px 8px;font-size:11px}
-    .badge-green{background:#10b981;right:8px}
-    .badge-red{background:#ef4444;left:8px}
+/* Nav */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,10,15,0.97);border-top:1px solid rgba(255,255,255,0.07);display:flex;z-index:200}
+.ni{flex:1;padding:10px 0 8px;text-align:center;cursor:pointer;border-top:2px solid transparent}
+.ni.on{border-top-color:#a855f7}
+.ni .ic{font-size:20px}
+.ni .lb{font-size:9px;color:#555;font-weight:600;margin-top:2px}
+.ni.on .lb{color:#a855f7}
 
-    /* Video Type */
-    .type-row{display:flex;gap:8px;margin-bottom:16px}
-    .type-btn{flex:1;padding:10px 0;border-radius:12px;border:none;background:rgba(255,255,255,0.07);color:#fff;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit}
-    .type-btn.active{background:linear-gradient(135deg,#a855f7,#3b82f6)}
-
-    /* Tools */
-    .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .tool-item{background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 4px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07)}
-    .tool-item.active{background:linear-gradient(135deg,rgba(168,85,247,0.4),rgba(59,130,246,0.4))}
-    .tool-icon{font-size:22px}
-    .tool-label{font-size:10px;color:#ccc;margin-top:4px}
-
-    /* Effects */
-    .effects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .effect-item{background:rgba(255,255,255,0.05);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.07);font-size:13px}
-    .effect-item.active{background:linear-gradient(135deg,#a855f7,#3b82f6);border:none;font-weight:700}
-    .effects-more{background:rgba(168,85,247,0.1);border:1px dashed rgba(168,85,247,0.3);border-radius:12px;padding:12px 8px;text-align:center;grid-column:span 3;color:#a855f7;font-size:13px}
-
-    /* Range */
-    input[type=range]{padding:0;border:none;background:transparent;height:auto;margin-bottom:0}
-    .range-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-    .range-label{font-size:12px;color:#a3a3a3}
-    .range-val{text-align:center;font-size:13px;color:#a855f7;margin-top:4px}
-
-    /* Toggle */
-    .toggle-row{display:flex;align-items:center;justify-content:space-between}
-    .toggle{width:50px;height:28px;border-radius:14px;background:rgba(255,255,255,0.15);position:relative;cursor:pointer;transition:0.2s;flex-shrink:0}
-    .toggle.on{background:#a855f7}
-    .toggle-dot{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:0.2s}
-    .toggle.on .toggle-dot{left:25px}
-
-    /* Voice Btns */
-    .voice-row{display:flex;gap:8px;flex-wrap:wrap}
-    .voice-btn{flex:1;padding:8px 0;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit}
-
-    /* Song btns */
-    .song-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .song-btn{padding:10px 8px;border-radius:10px;border:1px solid rgba(59,130,246,0.3);background:rgba(59,130,246,0.1);color:#93c5fd;cursor:pointer;font-size:13px;font-family:inherit}
-
-    /* Search */
-    .search-wrap{position:relative;margin-bottom:20px}
-    .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px}
-    .search-input{padding-left:44px!important;margin-bottom:0!important}
-    .media-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .media-item{background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,0.07)}
-    .media-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;background:rgba(168,85,247,0.1)}
-    .media-dur{position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);border-radius:8px;padding:2px 6px;font-size:11px}
-    .media-type{position:absolute;top:6px;left:8px;border-radius:8px;padding:2px 6px;font-size:10px}
-    .media-type.video{background:rgba(168,85,247,0.8)}
-    .media-type.image{background:rgba(59,130,246,0.8)}
-    .media-name{padding:10px 12px;font-size:13px;font-weight:600}
-    .no-results{text-align:center;color:#555;margin-top:40px}
-
-    /* Profile */
-    .profile-center{text-align:center;margin-bottom:24px}
-    .avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px}
-    .profile-name{font-size:20px;font-weight:700}
-    .profile-role{color:#a855f7;font-size:14px;margin-top:4px}
-    .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
-    .stat-item{background:rgba(255,255,255,0.05);border-radius:14px;padding:16px 8px;text-align:center}
-    .stat-num{font-size:22px;font-weight:800;color:#a855f7}
-    .stat-label{font-size:12px;color:#a3a3a3}
-    .setting-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer}
-    .setting-arrow{color:#555}
-    .btn-danger{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3)}
-    .login-prompt{text-align:center;padding-top:40px}
-    .login-big{font-size:64px;margin-bottom:16px}
-
-    /* Bottom Nav */
-    .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,10,15,0.97);border-top:1px solid rgba(255,255,255,0.07);display:flex;z-index:200}
-    .nav-item{flex:1;padding:10px 0 8px;text-align:center;cursor:pointer;border-top:2px solid transparent}
-    .nav-item.active{border-top-color:#a855f7}
-    .nav-icon{font-size:20px}
-    .nav-label{font-size:9px;color:#555;font-weight:600;margin-top:2px}
-    .nav-item.active .nav-label{color:#a855f7}
-
-    /* Glow */
-    .glow1{position:fixed;top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(138,43,226,0.18),transparent 70%);pointer-events:none}
-    .glow2{position:fixed;bottom:60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,0.12),transparent 70%);pointer-events:none}
-  </style>
+/* CSS Filters */
+.filter-none{filter:none}
+.filter-grayscale{filter:grayscale(100%)}
+.filter-sepia{filter:sepia(100%)}
+.filter-bright{filter:brightness(1.4) contrast(1.1)}
+.filter-dark{filter:brightness(0.6) contrast(1.3)}
+.filter-vintage{filter:sepia(50%) contrast(1.2) brightness(0.9)}
+.filter-cool{filter:hue-rotate(180deg) saturate(1.3)}
+.filter-warm{filter:sepia(30%) saturate(1.5) brightness(1.1)}
+.filter-neon{filter:saturate(3) brightness(1.2) contrast(1.4)}
+.filter-blur{filter:blur(2px)}
+.filter-sharpen{filter:contrast(1.5) saturate(1.3)}
+.filter-fade{filter:brightness(1.2) saturate(0.7) contrast(0.9)}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="glow1"></div>
-  <div class="glow2"></div>
+<div class="header">
+  <div class="logo">
+    <div class="logo-box">P</div>
+    <span class="logo-text">Pro Edit</span>
+  </div>
+  <button class="login-btn" id="lbtn" onclick="openAuth('login')">Login</button>
+</div>
+<div class="notif" id="notif"></div>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">
-      <div class="logo-icon">P</div>
-      <span class="logo-text">Pro Edit</span>
-    </div>
-    <button class="login-btn" id="loginBtn" onclick="openAuth('login')">Login</button>
+<!-- Auth Modal -->
+<div class="modal-bg" id="amodal">
+<div class="modal">
+  <h2 id="atitle">🔐 Login</h2>
+  <div id="aform">
+    <input type="text" id="auser" placeholder="Username"/>
+    <input type="password" id="apass" placeholder="Password"/>
+    <input type="tel" id="aphone" placeholder="Phone Number"/>
+  </div>
+  <div id="otpform" style="display:none">
+    <div id="otp1"><input type="tel" id="ophone" placeholder="Phone Number"/><button class="btn" onclick="sendOtp()">📤 Send OTP</button></div>
+    <div id="otp2" style="display:none"><p style="color:#a3a3a3;font-size:13px;margin-bottom:10px">OTP sent! Use: 1234</p><input type="number" id="ocode" placeholder="Enter OTP"/><button class="btn" onclick="verifyOtp()">✅ Verify</button></div>
+  </div>
+  <div id="abtns"></div>
+  <button style="background:transparent;border:none;color:#666;cursor:pointer;font-size:14px;width:100%;padding:8px;font-family:inherit" onclick="closeAuth()">✕ Close</button>
+</div>
+</div>
+
+<div class="content">
+
+<!-- HOME -->
+<div class="page on" id="p-home">
+  <div style="font-size:24px;font-weight:800;margin-bottom:4px">Hello <span id="gname">👋</span>!</div>
+  <div style="color:#a3a3a3;font-size:14px;margin-bottom:20px">Professional video editing at your fingertips</div>
+
+  <!-- REAL UPLOAD BOX -->
+  <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+    <input type="file" id="fileInput" accept="video/*,image/*" onchange="handleFile(this)"/>
+    <div style="font-size:48px;margin-bottom:8px">📹</div>
+    <div style="font-weight:700;font-size:16px">Upload Video / Image</div>
+    <div style="color:#a3a3a3;font-size:13px">Tap to select from gallery</div>
   </div>
 
-  <!-- Notification -->
-  <div class="notif" id="notif"></div>
+  <div style="font-size:16px;font-weight:700;margin-bottom:12px">⚡ Quick Actions</div>
+  <div class="grid2">
+    <div class="qbtn" style="background:linear-gradient(135deg,#a855f722,#a855f711);border:1px solid #a855f744" onclick="goEdit('Short Video')"><span style="font-size:22px">📱</span>Short Video</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#3b82f622,#3b82f611);border:1px solid #3b82f644" onclick="goEdit('Long Video')"><span style="font-size:22px">📺</span>Long Video</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#ec489922,#ec489911);border:1px solid #ec489944" onclick="sw('audio',document.querySelectorAll('.ni')[3])"><span style="font-size:22px">🎵</span>Song Edit</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b11);border:1px solid #f59e0b44" onclick="goEdit('Movie Clips')"><span style="font-size:22px">🎬</span>Movie Clips</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#10b98122,#10b98111);border:1px solid #10b98144" onclick="goEdit('Thumbnail')"><span style="font-size:22px">🖼️</span>Thumbnail</div>
+    <div class="qbtn" style="background:linear-gradient(135deg,#ef444422,#ef444411);border:1px solid #ef444444" onclick="goEdit('4K Export')"><span style="font-size:22px">4️⃣K</span>4K Export</div>
+  </div>
 
-  <!-- Auth Modal -->
-  <div class="modal-bg" id="authModal">
-    <div class="modal">
-      <div class="modal-title" id="authTitle">🔐 Login</div>
-      <div id="authForm">
-        <input type="text" id="authUser" placeholder="Username"/>
-        <input type="password" id="authPass" placeholder="Password"/>
-        <input type="tel" id="authPhone" placeholder="Phone Number"/>
+  <div style="font-size:16px;font-weight:700;margin-bottom:12px">🕐 Recent Projects</div>
+  <div id="recentList">
+    <div style="color:#555;text-align:center;padding:20px;font-size:14px">📭 No recent projects<br><span style="font-size:12px">Upload a video to start!</span></div>
+  </div>
+</div>
+
+<!-- EDIT -->
+<div class="page" id="p-edit">
+  <div id="videoSection">
+    <!-- Upload prompt if no video -->
+    <div id="noVideoPrompt" class="upload-box" onclick="document.getElementById('fileInput2').click()" style="margin-bottom:16px">
+      <input type="file" id="fileInput2" accept="video/*,image/*" onchange="handleFile(this)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer"/>
+      <div style="font-size:40px;margin-bottom:8px">📹</div>
+      <div style="font-weight:700">Tap to Upload Video</div>
+      <div style="color:#a3a3a3;font-size:13px">Select from gallery</div>
+    </div>
+
+    <!-- Video Player -->
+    <div class="video-wrap" id="videoWrap" style="display:none">
+      <video id="myVideo" controls playsinline></video>
+      <div class="video-info">
+        <span class="video-name" id="vidName">video.mp4</span>
+        <span class="video-size" id="vidSize">0 MB</span>
       </div>
-      <div id="otpForm" style="display:none">
-        <div id="otpStep1">
-          <input type="tel" id="otpPhone" placeholder="Phone Number"/>
-          <button class="btn" onclick="sendOtp()">📤 Send OTP</button>
-        </div>
-        <div id="otpStep2" style="display:none">
-          <p style="color:#a3a3a3;font-size:13px;margin-bottom:10px">OTP sent! Use: 1234</p>
-          <input type="number" id="otpCode" placeholder="Enter OTP"/>
-          <button class="btn" onclick="verifyOtp()">✅ Verify OTP</button>
-        </div>
+      <!-- Filter Controls -->
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="applyFilter('none',this)">Original</button>
+        <button class="ctrl-btn" onclick="applyFilter('grayscale',this)">B&W</button>
+        <button class="ctrl-btn" onclick="applyFilter('sepia',this)">Sepia</button>
+        <button class="ctrl-btn" onclick="applyFilter('bright',this)">Bright</button>
+        <button class="ctrl-btn" onclick="applyFilter('dark',this)">Dark</button>
+        <button class="ctrl-btn" onclick="applyFilter('vintage',this)">Vintage</button>
+        <button class="ctrl-btn" onclick="applyFilter('cool',this)">Cool</button>
+        <button class="ctrl-btn" onclick="applyFilter('warm',this)">Warm</button>
+        <button class="ctrl-btn" onclick="applyFilter('neon',this)">Neon</button>
       </div>
-      <div id="authBtns"></div>
-      <button class="btn-close" onclick="closeAuth()">✕ Close</button>
+    </div>
+
+    <!-- Image Preview -->
+    <div id="imgWrap" style="display:none;margin-bottom:16px">
+      <img id="myImg" style="width:100%;border-radius:18px;border:1px solid rgba(168,85,247,0.3);max-height:260px;object-fit:contain;background:#000"/>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="applyImgFilter('none',this)">Original</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('grayscale',this)">B&W</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('sepia',this)">Sepia</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('bright',this)">Bright</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('vintage',this)">Vintage</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('cool',this)">Cool</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('warm',this)">Warm</button>
+        <button class="ctrl-btn" onclick="applyImgFilter('neon',this)">Neon</button>
+      </div>
     </div>
   </div>
 
-  <!-- Content -->
-  <div class="content">
+  <!-- Video Options -->
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button id="bshort" class="btn" onclick="setType('short')" style="flex:1;margin:0">📱 Short</button>
+    <button id="blong" class="btn-o" onclick="setType('long')" style="flex:1;margin:0">📺 Long</button>
+  </div>
 
-    <!-- HOME -->
-    <div class="page active" id="page-home">
-      <div style="font-size:24px;font-weight:800;margin-bottom:4px">Hello <span id="greetName">👋</span>!</div>
-      <div style="color:#a3a3a3;font-size:14px;margin-bottom:24px">Professional video editing at your fingertips</div>
-      <div class="upload-box" onclick="uploadVideo()">
-        <div class="upload-icon">📹</div>
-        <div class="upload-title">Upload Video / Image</div>
-        <div class="upload-sub">Tap to select from gallery</div>
-      </div>
-      <div class="section-title">⚡ Quick Actions</div>
-      <div class="quick-grid">
-        <div class="quick-item" style="background:linear-gradient(135deg,#a855f722,#a855f711);border:1px solid #a855f744" onclick="goEdit('Short Video')"><span style="font-size:24px">📱</span> Short Video</div>
-        <div class="quick-item" style="background:linear-gradient(135deg,#3b82f622,#3b82f611);border:1px solid #3b82f644" onclick="goEdit('Long Video')"><span style="font-size:24px">📺</span> Long Video</div>
-        <div class="quick-item" style="background:linear-gradient(135deg,#ec489922,#ec489911);border:1px solid #ec489944" onclick="goEdit('Song Edit')"><span style="font-size:24px">🎵</span> Song Edit</div>
-        <div class="quick-item" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b11);border:1px solid #f59e0b44" onclick="goEdit('Movie Clips')"><span style="font-size:24px">🎬</span> Movie Clips</div>
-        <div class="quick-item" style="background:linear-gradient(135deg,#10b98122,#10b98111);border:1px solid #10b98144" onclick="goEdit('Thumbnail')"><span style="font-size:24px">🖼️</span> Thumbnail</div>
-        <div class="quick-item" style="background:linear-gradient(135deg,#ef444422,#ef444411);border:1px solid #ef444444" onclick="goEdit('4K Export')"><span style="font-size:24px">4️⃣K</span> 4K Export</div>
-      </div>
-      <div class="section-title">🕐 Recent Projects</div>
-      <div class="recent-item" onclick="openProject('Project_01.mp4')">
-        <div class="recent-info"><span class="recent-icon">🎞️</span><div><div class="recent-name">Project_01.mp4</div><div class="recent-sub">Edited recently</div></div></div>
-        <span class="recent-play">▶</span>
-      </div>
-      <div class="recent-item" onclick="openProject('My_Vlog.mp4')">
-        <div class="recent-info"><span class="recent-icon">🎞️</span><div><div class="recent-name">My_Vlog.mp4</div><div class="recent-sub">Edited recently</div></div></div>
-        <span class="recent-play">▶</span>
-      </div>
-      <div class="recent-item" onclick="openProject('Short_Reel.mp4')">
-        <div class="recent-info"><span class="recent-icon">🎞️</span><div><div class="recent-name">Short_Reel.mp4</div><div class="recent-sub">Edited recently</div></div></div>
-        <span class="recent-play">▶</span>
-      </div>
+  <!-- Brightness/Contrast -->
+  <div class="card" id="adjustCard" style="display:none">
+    <div style="font-weight:700;margin-bottom:12px">🎨 Adjustments</div>
+    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Brightness</div>
+    <div class="rrow">
+      <span style="font-size:12px;color:#666">🌑</span>
+      <input type="range" min="0" max="200" value="100" id="brightRange" oninput="adjustVideo()"/>
+      <span style="font-size:12px;color:#666">☀️</span>
     </div>
-
-    <!-- EDIT -->
-    <div class="page" id="page-edit">
-      <div class="preview">
-        <div id="previewEmpty" style="text-align:center;color:#555"><div style="font-size:48px;margin-bottom:8px">📭</div><div>No video selected</div></div>
-        <div id="previewVideo" style="display:none;width:100%;height:100%;position:relative;display:none;align-items:center;justify-content:center">
-          <span style="font-size:64px">🎬</span>
-          <div class="preview-bar">
-            <div class="progress-bg"><div class="progress-fill"></div></div>
-            <div class="preview-time"><span>0:08</span><span id="vidName">▶ video.mp4</span><span>0:23</span></div>
-          </div>
-          <div class="badge badge-green" id="bgBadge" style="display:none">BG Removed</div>
-          <div class="badge badge-red" id="k4Badge" style="display:none">4K</div>
-        </div>
-      </div>
-      <div class="type-row">
-        <button class="type-btn active" id="btnShort" onclick="setType('short')">📱 Short</button>
-        <button class="type-btn" id="btnLong" onclick="setType('long')">📺 Long</button>
-      </div>
-      <div class="card">
-        <div class="card-title">📝 Text → Video</div>
-        <textarea id="txtInput" placeholder="Type script here... video will be generated"></textarea>
-        <button class="btn" onclick="generateVideo()">Generate Video</button>
-      </div>
-      <div class="section-title">🛠️ Editing Tools</div>
-      <div class="tools-grid" id="toolsGrid"></div>
+    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Contrast</div>
+    <div class="rrow">
+      <span style="font-size:12px;color:#666">◐</span>
+      <input type="range" min="0" max="200" value="100" id="contrastRange" oninput="adjustVideo()"/>
+      <span style="font-size:12px;color:#666">◉</span>
     </div>
-
-    <!-- EFFECTS -->
-    <div class="page" id="page-effects">
-      <div style="font-size:20px;font-weight:800;margin-bottom:4px">✨ Effects Library</div>
-      <div style="color:#a3a3a3;font-size:13px;margin-bottom:16px">1000+ effects for all videos</div>
-      <div class="effects-grid" id="effectsGrid"></div>
+    <div style="font-size:13px;color:#a3a3a3;margin-bottom:6px">Saturation</div>
+    <div class="rrow">
+      <span style="font-size:12px;color:#666">🩶</span>
+      <input type="range" min="0" max="300" value="100" id="satRange" oninput="adjustVideo()"/>
+      <span style="font-size:12px;color:#666">🌈</span>
     </div>
+  </div>
 
-    <!-- AUDIO -->
-    <div class="page" id="page-audio">
-      <div style="font-size:20px;font-weight:800;margin-bottom:20px">🎵 Audio Studio</div>
-      <div class="card">
-        <div class="card-title">🔊 Voice Thickness</div>
-        <div class="range-row">
-          <span class="range-label">Thin</span>
-          <input type="range" min="0" max="100" value="50" id="thickRange" oninput="updateThick(this.value)" style="flex:1;accent-color:#a855f7"/>
-          <span class="range-label">Thick</span>
+  <!-- Text to Video -->
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:10px">📝 Text → Video</div>
+    <textarea id="txtin" placeholder="Type script here..."></textarea>
+    <button class="btn" onclick="genVideo()">Generate Video</button>
+  </div>
+
+  <!-- Tools -->
+  <div style="font-weight:700;margin-bottom:12px">🛠️ Editing Tools</div>
+  <div class="tools" id="toolsgrid"></div>
+</div>
+
+<!-- EFFECTS -->
+<div class="page" id="p-effects">
+  <div style="font-size:20px;font-weight:800;margin-bottom:4px">✨ Effects Library</div>
+  <div style="color:#a3a3a3;font-size:13px;margin-bottom:16px">1000+ effects for all videos</div>
+  <div class="fx-grid" id="fxgrid"></div>
+</div>
+
+<!-- AUDIO -->
+<div class="page" id="p-audio">
+  <div style="font-size:20px;font-weight:800;margin-bottom:20px">🎵 Audio Studio</div>
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:12px">🔊 Voice Thickness</div>
+    <div class="rrow">
+      <span style="font-size:12px;color:#a3a3a3">Thin</span>
+      <input type="range" min="0" max="100" value="50" id="thick" oninput="updThick(this.value)"/>
+      <span style="font-size:12px;color:#a3a3a3">Thick</span>
+    </div>
+    <div id="thickval" style="text-align:center;font-size:13px;color:#a855f7">50% — Normal</div>
+  </div>
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:12px">🎙️ Professional Voice</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="notify('Normal voice! 🎙️')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Normal</button>
+      <button onclick="notify('Pro voice! 🎤')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Pro</button>
+      <button onclick="notify('Clean voice! ✨')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Clean</button>
+      <button onclick="notify('Deep voice! 🔊')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">Deep</button>
+      <button onclick="notify('High voice! 🎵')" style="flex:1;padding:8px;border-radius:10px;border:none;background:rgba(168,85,247,0.2);color:#c084fc;cursor:pointer;font-size:11px;font-weight:600;min-width:50px;font-family:inherit">High</button>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><div style="font-weight:700">🧹 Clean Voice</div><div style="color:#a3a3a3;font-size:13px;margin-top:4px">Remove noise</div></div>
+      <div class="toggle" id="ctoggle" onclick="togClean()"><div class="dot"></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:8px">🎤 Remove BG Voice</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" style="flex:1;margin:0" onclick="notify('Vocals isolated! 🎤')">Keep Vocals</button>
+      <button class="btn-o" style="flex:1;margin:0" onclick="notify('Music isolated! 🎵')">Keep Music</button>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-weight:700;margin-bottom:12px">🎶 Song Editor</div>
+    <div class="song-grid">
+      <button class="song-btn" onclick="notify('Tempo adjusted! 🎵')">Tempo</button>
+      <button class="song-btn" onclick="notify('Pitch adjusted! 🎼')">Pitch</button>
+      <button class="song-btn" onclick="notify('Bass adjusted! 🔊')">Bass</button>
+      <button class="song-btn" onclick="notify('Treble adjusted! 🎶')">Treble</button>
+      <button class="song-btn" onclick="notify('Echo applied! 🔁')">Echo</button>
+      <button class="song-btn" onclick="notify('Reverb applied! 🎸')">Reverb</button>
+      <button class="song-btn" onclick="notify('Fade In added! ⬆️')">Fade In</button>
+      <button class="song-btn" onclick="notify('Fade Out added! ⬇️')">Fade Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="page" id="p-search">
+  <div style="font-size:20px;font-weight:800;margin-bottom:16px">🔍 Search Media</div>
+  <div style="position:relative;margin-bottom:20px">
+    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px">🔍</span>
+    <input type="text" style="padding-left:44px;margin-bottom:0" id="srch" placeholder="Search videos, images..." oninput="filterMedia(this.value)"/>
+  </div>
+  <div class="media-grid" id="mgrid"></div>
+  <div id="nores" style="display:none;text-align:center;color:#555;margin-top:40px"><div style="font-size:48px">🔭</div><div>No results found</div></div>
+</div>
+
+<!-- PROFILE -->
+<div class="page" id="p-profile">
+  <div style="font-size:20px;font-weight:800;margin-bottom:20px">👤 Profile</div>
+  <div id="pout" style="text-align:center;padding-top:40px">
+    <div style="font-size:64px;margin-bottom:16px">🔐</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:8px">Login Required</div>
+    <div style="color:#a3a3a3;margin-bottom:24px">Create account to save projects</div>
+    <button class="btn" onclick="openAuth('login')">Login / Sign Up</button>
+    <button class="btn-o" onclick="openAuth('otp')">📱 Verify Phone (OTP)</button>
+  </div>
+  <div id="pin" style="display:none">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px" id="avi">U</div>
+      <div style="font-size:20px;font-weight:700" id="pname">User</div>
+      <div style="color:#a855f7;font-size:14px;margin-top:4px">Pro Editor</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7" id="vidCount">0</div><div style="font-size:12px;color:#a3a3a3">Videos</div></div>
+      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7">0</div><div style="font-size:12px;color:#a3a3a3">Edits</div></div>
+      <div class="stat"><div style="font-size:22px;font-weight:800;color:#a855f7">0</div><div style="font-size:12px;color:#a3a3a3">Projects</div></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:12px">⚙️ Settings</div>
+      <div class="si" onclick="notify('Edit Profile!')"><span>Edit Profile</span><span style="color:#555">›</span></div>
+      <div class="si" onclick="notify('Notifications!')"><span>Notifications</span><span style="color:#555">›</span></div>
+      <div class="si" onclick="notify('Storage: '+getStorageUsed())"><span>Storage</span><span style="color:#555">›</span></div>
+      <div class="si" onclick="notify('Privacy!')"><span>Privacy</span><span style="color:#555">›</span></div>
+      <div class="si" onclick="notify('Help!')"><span>Help & Support</span><span style="color:#555">›</span></div>
+      <div class="si" onclick="notify('Updates!')"><span>Update / New Features</span><span style="color:#555">›</span></div>
+    </div>
+    <button class="btn" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3)" onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
+
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="ni on" onclick="sw('home',this)"><div class="ic">🏠</div><div class="lb">Home</div></div>
+  <div class="ni" onclick="sw('edit',this)"><div class="ic">✂️</div><div class="lb">Edit</div></div>
+  <div class="ni" onclick="sw('effects',this)"><div class="ic">✨</div><div class="lb">Effects</div></div>
+  <div class="ni" onclick="sw('audio',this)"><div class="ic">🎵</div><div class="lb">Audio</div></div>
+  <div class="ni" onclick="sw('search',this)"><div class="ic">🔍</div><div class="lb">Search</div></div>
+  <div class="ni" onclick="sw('profile',this)"><div class="ic">👤</div><div class="lb">Profile</div></div>
+</div>
+</div>
+
+<script>
+let loggedIn=false,curUser='',uploadedFiles=[],currentFilter='none';
+const EFFECTS=['Cinematic','Glitch','Neon','Vintage','VHS','Bloom','Film Grain','Chromatic','Bokeh','Duotone','Noir','Sunset','Arctic','Lava','Matrix','Cyberpunk','Pastel','Sketch','Oil Paint','Watercolor','Pop Art','Comic','Mosaic','Pixelate','Mirror','Kaleidoscope','Prism','Haze','Rain','Snow','Stars','Lightning','Fire','Smoke','Confetti','Sparkle','Glitter','Rainbow','Aurora','Galaxy','Deep Sea','Forest','Desert','Urban','Retro','Polaroid','Faded','Washed','Matte','Vivid','HDR','Dramatic','Soft','Sharp','Warm','Cool','Golden Hour','Blue Hour','Moody','Bright'];
+const TOOLS=[{i:'✂️',l:'Trim'},{i:'🔄',l:'Rotate'},{i:'📐',l:'Crop'},{i:'🎨',l:'Adjust'},{i:'💧',l:'Filter'},{i:'📝',l:'Text'},{i:'🎬',l:'Transition'},{i:'🖼️',l:'Thumbnail'},{i:'🔊',l:'Audio'},{i:'🎙️',l:'Voice'},{i:'🚫',l:'BG Remove'},{i:'4️⃣',l:'4K Export'},{i:'🎞️',l:'Clips'},{i:'🧹',l:'Clean'},{i:'📱',l:'Short'},{i:'📺',l:'Long'}];
+const MEDIA=[{t:'video',n:'Sunset Timelapse',e:'🌅',d:'0:32'},{t:'image',n:'Mountain View',e:'🏔️'},{t:'video',n:'City Walk',e:'🌆',d:'1:20'},{t:'image',n:'Beach Waves',e:'🌊'},{t:'video',n:'Forest Rain',e:'🌿',d:'2:10'},{t:'image',n:'Night Sky',e:'🌠'},{t:'video',n:'Street Music',e:'🎸',d:'3:05'},{t:'image',n:'Abstract Art',e:'🎨'}];
+const filterMap={none:'',grayscale:'grayscale(100%)',sepia:'sepia(100%)',bright:'brightness(1.4) contrast(1.1)',dark:'brightness(0.6) contrast(1.3)',vintage:'sepia(50%) contrast(1.2) brightness(0.9)',cool:'hue-rotate(180deg) saturate(1.3)',warm:'sepia(30%) saturate(1.5) brightness(1.1)',neon:'saturate(3) brightness(1.2) contrast(1.4)',blur:'blur(2px)',sharpen:'contrast(1.5) saturate(1.3)',fade:'brightness(1.2) saturate(0.7) contrast(0.9)'};
+
+function notify(m){const n=document.getElementById('notif');n.textContent=m;n.style.display='block';setTimeout(()=>n.style.display='none',2500)}
+function sw(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');el.classList.add('on')}
+
+// REAL FILE UPLOAD
+function handleFile(input){
+  const file=input.files[0];
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  const isVideo=file.type.startsWith('video/');
+  const isImage=file.type.startsWith('image/');
+  const sizeMB=(file.size/1024/1024).toFixed(1);
+
+  // Save to recent
+  uploadedFiles.unshift({name:file.name,size:sizeMB,type:isVideo?'video':'image',url});
+  updateRecent();
+
+  // Show in edit tab
+  document.getElementById('noVideoPrompt').style.display='none';
+  document.getElementById('adjustCard').style.display='block';
+
+  if(isVideo){
+    document.getElementById('videoWrap').style.display='block';
+    document.getElementById('imgWrap').style.display='none';
+    const vid=document.getElementById('myVideo');
+    vid.src=url;
+    vid.style.filter='';
+    document.getElementById('vidName').textContent=file.name;
+    document.getElementById('vidSize').textContent=sizeMB+' MB';
+    currentFilter='none';
+  } else if(isImage){
+    document.getElementById('imgWrap').style.display='block';
+    document.getElementById('videoWrap').style.display='none';
+    const img=document.getElementById('myImg');
+    img.src=url;
+    img.style.filter='';
+  }
+
+  notify('✅ '+file.name+' uploaded!');
+  sw('edit',document.querySelectorAll('.ni')[1]);
+
+  // Update stats
+  if(document.getElementById('vidCount')){
+    document.getElementById('vidCount').textContent=uploadedFiles.length;
+  }
+}
+
+function updateRecent(){
+  const list=document.getElementById('recentList');
+  if(uploadedFiles.length===0){list.innerHTML='<div style="color:#555;text-align:center;padding:20px;font-size:14px">📭 No recent projects</div>';return;}
+  list.innerHTML=uploadedFiles.slice(0,5).map(f=>`
+    <div class="recent" onclick="reloadFile('${f.url}','${f.name}','${f.type}','${f.size}')">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:26px">${f.type==='video'?'🎞️':'🖼️'}</span>
+        <div>
+          <div style="font-weight:600;font-size:14px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</div>
+          <div style="color:#666;font-size:12px">${f.size} MB • ${f.type}</div>
         </div>
-        <div class="range-val" id="thickVal">50% — Normal</div>
       </div>
-      <div class="card">
-        <div class="card-title">🎙️ Professional Voice</div>
-        <div class="voice-row">
-          <button class="voice-btn" onclick="notify('Normal voice applied!')">Normal</button>
-          <button class="voice-btn" onclick="notify('Pro voice applied!')">Pro</button>
-          <button class="voice-btn" onclick="notify('Clean voice applied!')">Clean</button>
-          <button class="voice-btn" onclick="notify('Deep voice applied!')">Deep</button>
-          <button class="voice-btn" onclick="notify('High voice applied!')">High</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="toggle-row">
-          <div><div style="font-weight:700">🧹 Clean Voice</div><div style="color:#a3a3a3;font-size:13px;margin-top:4px">Remove background noise</div></div>
-          <div class="toggle" id="cleanToggle" onclick="toggleClean()"><div class="toggle-dot"></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🎤 Remove Background Voice</div>
-        <div style="display:flex;gap:8px">
-          <button class="btn" style="flex:1;margin:0" onclick="notify('Vocals isolated! 🎤')">Keep Vocals</button>
-          <button class="btn-out" style="flex:1;margin:0" onclick="notify('Music isolated! 🎵')">Keep Music</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🎶 Song Editor</div>
-        <div class="song-grid">
-          <button class="song-btn" onclick="notify('Tempo adjusted!')">Tempo</button>
-          <button class="song-btn" onclick="notify('Pitch adjusted!')">Pitch</button>
-          <button class="song-btn" onclick="notify('Bass adjusted!')">Bass</button>
-          <button class="song-btn" onclick="notify('Treble adjusted!')">Treble</button>
-          <button class="song-btn" onclick="notify('Echo adjusted!')">Echo</button>
-          <button class="song-btn" onclick="notify('Reverb adjusted!')">Reverb</button>
-          <button class="song-btn" onclick="not
+      <span style="color:#a855f7">▶</span>
+    </div>
+  `).join('');
+}
+
+function reloadFile(url,name,type,size){
+  document.getElementById('noVideoPrompt').style.display='none';
+  document.getElementById('adjustCard').style.display='block';
+  if(type==='video'){
+    document.getElementById('videoWrap').style.display='block';
+    document.getElementById('imgWrap').style.display='none';
+    document.getElementById('myVideo').src=url;
+    document.getElementById('vidName').textContent=name;
+    document.getElementById('vidSize').textContent=size+' MB';
+  } else {
+    document.getElementById('imgWrap').style.display='block';
+    document.getElementById('videoWrap').style.display='none';
+    document.getElementById('myImg').src=url;
+  }
+  sw('edit',document.querySelectorAll('.ni')[1]);
+}
+
+// FILTERS
+function applyFilter(f,btn){
+  const vid=document.getElementById('myVideo');
+  vid.style.filter=filterMap[f]||'';
+  currentFilter=f;
+  document.querySelectorAll('#videoWrap .ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  notify(f==='none'?'Original filter':''+f+' filter applied! ✨');
+}
+
+function applyImgFilter(f,btn){
+  const img=document.getElementById('myImg');
+  img.style.filter=filterMap[f]||'';
+  document.querySelectorAll('#imgWrap .ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  notify(f==='none'?'Original filter':''+f+' filter applied! ✨');
+}
+
+// ADJUSTMENTS
+function adjustVideo(){
+  const b=document.getElementById('brightRange').value;
+  const c=document.getElementById('contrastRange').value;
+  const s=document.getElementById('satRange').value;
+  const el=document.getElementById('myVideo').style.display!=='none'?document.getElementById('myVideo'):document.getElementById('myImg');
+  el.style.filter=`brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
+}
+
+function goEdit(l){notify(l+' selected!');sw('edit',document.querySelectorAll('.ni')[1])}
+function setType(t){document.getElementById('bshort').className=t==='short'?'btn':'btn-o';document.getElementById('blong').className=t==='long'?'btn':'btn-o';notify(t==='short'?'Short mode! 📱':'Long mode! 📺')}
+function genVideo(){const t=document.getElementById('txtin').value;if(t){notify('🎬 Video script saved! Add video to apply.');}}
+function updThick(v){document.getElementById('thickval').textContent=v+'% — '+(v<30?'Thin':v<70?'Normal':'Thick');notify('Voice: '+v+'%')}
+function togClean(){const t=document.getElementById('ctoggle');t.classList.toggle('on');notify(t.classList.contains('on')?'Voice cleaned! ✅':'Cleaning off')}
+function getStorageUsed(){return uploadedFiles.reduce((a,f)=>a+parseFloat(f.size),0).toFixed(1)+' MB used'}
+function filterMedia(q){const f=MEDIA.filter(r=>r.n.toLowerCase().includes(q.toLowerCase()));buildMedia(f)}
+
+function buildMedia(list){
+  const g=document.getElementById('mgrid');g.innerHTML='';
+  document.getElementById('nores').style.display=list.length?'none':'block';
+  list.forEach(r=>{
+    const d=document.createElement('div');d.className='media-item';
+    d.innerHTML='<div class="media-thumb">'+r.e+(r.d?'<span style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);border-radius:8px;padding:2px 6px;font-size:11px">'+r.d+'</span>':'')+'<span style="position:absolute;top:6px;left:8px;background:'+(r.t==='video'?'rgba(168,85,247,0.8)':'rgba(59,130,246,0.8)')+';border-radius:8px;padding:2px 6px;font-size:10px">'+r.t+'</span></div><div style="padding:10px 12px;font-size:13px;font-weight:600">'+r.n+'</div>';
+    d.onclick=()=>notify(r.n+' selected! ✅');
+    g.appendChild(d);
+  });
+}
+
+// Auth
+function openAuth(m){
+  const modal=document.getElementById('amodal');modal.style.display='flex';
+  document.getElementById('aform').style.display='none';document.getElementById('otpform').style.display='none';
+  if(m==='login'){document.getElementById('atitle').textContent='🔐 Login';document.getElementById('aform').style.display='block';document.getElementById('abtns').innerHTML='<button class="btn" onclick="doLogin()">Login</button><button class="btn-o" onclick="openAuth(\'signup\')">New? Sign Up</button><button class="btn-o" onclick="openAuth(\'otp\')">📱 Verify Phone</button>';}
+  else if(m==='signup'){document.getElementById('atitle').textContent='📝 Sign Up';document.getElementById('aform').style.display='block';document.getElementById('abtns').innerHTML='<button class="btn" onclick="doSignup()">Create Account</button><button class="btn-o" onclick="openAuth(\'login\')">Already have account?</button>';}
+  else{document.getElementById('atitle').textContent='📱 Verify OTP';document.getElementById('otpform').style.display='block';document.getElementById('abtns').innerHTML='';}
+}
+function closeAuth(){document.getElementById('amodal').style.display='none'}
+function doLogin(){const u=document.getElementById('auser').value||'User';setLogin(u);closeAuth();notify('Welcome back, '+u+'! 🎉')}
+function doSignup(){const u=document.getElementById('auser').value||'User';setLogin(u);closeAuth();notify('Account created! Welcome '+u+'! 🎉')}
+function setLogin(u){loggedIn=true;curUser=u;document.getElementById('lbtn').textContent='👤 '+u;document.getElementById('lbtn').onclick=logout;document.getElementById('gname').textContent=u;document.getElementById('pout').style.display='none';document.getElementById('pin').style.display='block';document.getElementById('pname').textContent=u;document.getElementById('avi').textContent=u[0].toUpperCase()}
+function logout(){loggedIn=false;curUser='';document.getElementById('lbtn').textContent='Login';document.getElementById('lbtn').onclick=()=>openAuth('login');document.getElementById('gname').textContent='👋';document.getElementById('pout').style.display='block';document.getElementById('pin').style.display='none';notify('Logged out!')}
+function sendOtp(){const p=document.getElementById('ophone').value;if(p.length>=10){document.getElementById('otp1').style.display='none';document.getElementById('otp2').style.display='block';notify('OTP sent! Use: 1234')}else notify('Valid phone number daalo!')}
+function verifyOtp(){if(document.getElementById('ocode').value==='1234'){notify('✅ Phone Verified!');closeAuth()}else notify('❌ Wrong OTP! Use 1234')}
+
+window.onload=function(){
+  // Build tools
+  const tg=document.getElementById('toolsgrid');
+  TOOLS.forEach(t=>{
+    const d=document.createElement('div');d.className='tool';d.id='tl-'+t.l;
+    d.innerHTML='<div style="font-size:20px">'+t.i+'</div><div style="font-size:10px;color:#ccc;margin-top:3px">'+t.l+'</div>';
+    d.onclick=()=>{
+      if(t.l==='Adjust'){document.getElementById('adjustCard').style.display=document.getElementById('adjustCard').style.display==='none'?'block':'none';notify('Adjustments panel!');}
+      else{document.querySelectorAll('.tool').forEach(x=>x.classList.remove('on'));d.classList.add('on');notify(t.l+' selected!');}
+    };
+    tg.appendChild(d);
+  });
+  // Build effects
+  const fg=document.getElementById('fxgrid');
+  EFFECTS.forEach(e=>{
+    const d=document.createElement('div');d.className='fx';d.textContent=e;
+    d.onclick=()=>{
+      document.querySelectorAll('.fx').forEach(x=>x.classList.remove('on'));
+      d.classList.add('on');
+      const vid=document.getElementById('myVideo');
+      const img=document.getElementById('myImg');
+      if(vid.src)vid.style.filter=filterMap[e.toLowerCase()]||filterMap.neon;
+      if(img.src)img.style.filter=filterMap[e.toLowerCase()]||filterMap.neon;
+      notify(e+' applied! ✨');
+    };
+    fg.appendChild(d);
+  });
+  const more=document.createElement('div');more.className='fx';more.style.gridColumn='span 3';more.style.color='#a855f7';more.style.borderColor='rgba(168,85,247,0.3)';more.textContent='+ 940 more effects';fg.appendChild(more);
+  buildMedia(MEDIA);
+  updateRecent();
+};
+</script>
+</body>
+</html>
